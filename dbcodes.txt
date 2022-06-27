@@ -1,0 +1,34 @@
+create table users (
+ 	id int AUTO_INCREMENT,
+    track_id varchar(400) not null,
+    first_name varchar(400) not null,
+    surname varchar(400) not null,
+    username varchar(400) not null,
+    password varchar(400) not null,
+    phone varchar(400) not null,
+    email varchar(400) not null,
+    address Text not null,
+    next_of_kin varchar(400) not null,
+    next_of_kin_phone varchar(400) not null,
+    bank_name varchar(400) not null,
+    account_name varchar(400) not null,
+    account_number varchar(400) not null,
+    voucher_pin varchar(400) not null,
+    date_joined datetime DEFAULT CURRENT_TIMESTAMP,
+    joined_date varchar(400) not null,
+    is_deleted varchar(400) not null,
+    status varchar(400) DEFAULT 'Active' not null,
+    PRIMARY KEY(id),
+    unique (track_id, email)
+)
+
+create table voucher(
+    id int AUTO_INCREMENT,
+    track_id varchar(400) not null unique,
+    voucher_pin varchar(400) not null,
+    voucher_user varchar(400) not null,
+    voucher_status varchar(400) not null,
+    date_used datetime DEFAULT CURRENT_TIMESTAMP,
+    is_deleted varchar(400) not null,
+    PRIMARY KEY (id)
+)
