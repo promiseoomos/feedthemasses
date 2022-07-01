@@ -9,8 +9,8 @@ class Functions{
     public function generatetrack(){
 
         $random1 = rand(100, 1000);
-        $random2 = rand(1000, 10000000000);
-        $track_id = "100" . $random1 . $random2;
+        $random2 = rand(100, 1000);
+        $track_id = "10" . $random1 . $random2;
 
         return $track_id;
 
@@ -93,7 +93,6 @@ class Functions{
             $sql = "select * from users where email = '$item'";
             $sqlc = "select count(*) from users where email = '$item'";
         } else if ($column == "username") {
-
             $sql = "select * from users where username = '$item'";
             $sqlc = "select count(*) from users where username = '$item'";
         }
@@ -106,13 +105,7 @@ class Functions{
         //$result = $query->fetchAll(PDO::FETCH_ASSOC);
 
         if ($num > 0) {
-
-            if ($column == 'email') {
-                return false;
-            } else if ($column == 'username') {
-                return false;
-            }
-
+            return false;
         } else {
             return true;
         }

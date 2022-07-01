@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView"
 import SignupView from '@/views/SignupView'
+import DashboardView from '@/views/DashboardView'
 
 const routes = [
   {
@@ -28,6 +29,39 @@ const routes = [
     path : "/signup",
     name : "signup",
     component : SignupView
+  },
+  {
+    path: "/dashboard",
+    name : "dashboard",
+    component : DashboardView,
+    children : [
+        {
+            path: "",
+            name : "dashboardhome",
+            component : () => import("../views/DashboardHomeView.vue")
+        },
+        {
+            path : "profile/:username",
+            name : "profile",
+            props : true,
+            component : () => import ("../views/ProfilePage.vue")
+        },
+        {
+            path : "matrix",
+            name : "matrix",
+            component : () => import("../views/MatrixView.vue")
+        },
+        {
+            path : "rewards",
+            name : "rewards",
+            component : () => import("../views/RewardsView.vue")
+        },
+        {
+            path : "upgrade",
+            name : "upgrade",
+            component : () => import("../views/UpgradeView.vue")
+        }
+    ]
   }
 ];
 

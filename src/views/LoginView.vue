@@ -4,7 +4,7 @@
         <div class="w-full lg:w-1/2 bg-white mx-auto rounded-lg p-5 h-96">
             <form @submit.prevent="logUser">
                 <div class="relative z-0 w-full mb-6 group">
-                    <input type="text" name="username" v-model="regData.user_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                    <input type="text" name="username" v-model="regData.username" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
                     <label for="username" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Username</label>
                 </div>
 
@@ -30,6 +30,7 @@
 
 <script>
 import { reactive, toRefs, computed } from 'vue'
+import { useRouter } from "vue-router"
 import { useUser } from "@/stores/user"
 // import InputText from 'primevue/inputtext';
 
@@ -45,20 +46,26 @@ export default {
 
         const userstore = useUser()
         const regData = reactive({
-            user_name : "",
+            username : "",
             password : "",
         })
 
-        userstore.counter++
         const chkfields = computed(() => {
-            return regData.user_name.length <= 0 || regData.password.length <= 0 ? true : false
+            return regData.username.length <= 0 || regData.password.length <= 0 ? true : false
         })
+        const router = useRouter();
 
-        function logUser(regData){
-            userstore.loginUser(regData).then((response) => {
-                if(response.status == 'success'){
-                    regData.user_name = ""
+        function logUser(){
+
+            return userstore.loginUser(regData).then((response) => {
+                console.log(response)
+                if(response){
+                    regData.username = ""
                     regData.password = ""
+
+                    router.push({
+                        name : "dashboard"
+                    })
                 }
             })
         }

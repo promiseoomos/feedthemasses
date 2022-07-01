@@ -11,7 +11,14 @@ const apiClient = axios.create({
 export default {
     logger(userObj){
 
-        apiClient.post("user.class.php", {
+        return apiClient.post("user.class.php", {
+            action : "login",
+            userObj
+        })
+    },
+    register(userObj){
+        return apiClient.post("user.class.php", {
+            action : "signup",
             userObj
         })
     }

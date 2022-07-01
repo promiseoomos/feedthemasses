@@ -3,7 +3,16 @@
         <p class="text-xl text-bold text-center">Sign up</p>
         <div class="w-full lg:w-1/2 bg-white mx-auto rounded-lg p-5">
         
-            <form @submit.prevent="regUser">{{ validator }}
+            <form @submit.prevent="regUser">
+                <div class="relative z-0 w-full mb-6 group">
+                    <input type="text" name="refferer_id" v-model="regData.referer_id" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                    <label for="refferer_id" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Refferer ID</label>
+                </div>
+                <div class="relative z-0 w-full mb-6 group">
+                    <input type="text" name="voucher_pin" v-model="regData.voucher_pin" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                    <label for="voucher_pin" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Voucher Pin</label>
+                </div>
+
                 <div class="relative z-0 w-full mb-6 group">
                     <input type="text" name="first_name" v-model="regData.first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
                     <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First Name</label>
@@ -22,9 +31,13 @@
                         <label for="username" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Username</label>
                     </div>
                     <div class="relative z-0 w-full mb-6 group">
-                        <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone" v-model="regData.phone" @keyup="validatephone()" id="phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                        <input type="tel" name="phone" v-model="regData.phone" @keyup="validatephone()" id="phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
                         <label for="phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone Number</label>
+                        <div v-if="validator.userphoneerror" class="">
+                            <p v-html="validator.userphoneerrormsg"></p>
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="relative z-0 w-full mb-6 group">
@@ -38,7 +51,7 @@
                         <label for="next_of_kin" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Next of Kin</label>
                     </div>
                     <div class="relative z-0 w-full mb-6 group">
-                        <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" v-model="regData.next_of_kin_phone" name="next_of_kin_phone" id="next_of_kin_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                        <input type="tel" v-model="regData.next_of_kin_phone" name="next_of_kin_phone" id="next_of_kin_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
                         <label for="next_of_kin_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Next of Kin Phone</label>
                     </div>
                 </div>
@@ -66,16 +79,14 @@
                     <input type="password" name="repassword" v-model="repassword" @keyup="confirmpassword()" id="repassword" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
                     <label for="repassword" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirm password</label>
                 </div>
-
-                <div class="relative z-0 w-full mb-6 group">
-                    <input type="text" name="voucher_pin" v-model="regData.voucher_pin" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
-                    <label for="voucher_pin" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Voucher Pin</label>
+                <div v-if="validator.unmatchpassword" class="-mt-4">
+                    <p v-html="validator.unmatchpasswordmsg"></p>
                 </div>
 
-                <div class="relative z-0 w-full mb-6 group">
-                    <input type="text" name="refferer_id" v-model="regData.refferer_id" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
-                    <label for="refferer_id" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Refferer ID</label>
-                </div>
+                <div v-if="regResponse != ''" :class="{ 'text-green-600 bg-green-400/[0.4]' : regResponse.signedup, 'text-red-600 bg-red-400/[0.4]' : !regResponse.signedup}" class="min-h-20 w-full p-3 mb-3 rounded-md">
+                    {{ regResponse.msg }} 
+                 </div>
+
                 <div class="text-center">
                     <button type="submit" :disabled="chkfields" :class="{ 'opacity-50' : chkfields }" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-3/5 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-auto">Sign up</button>
                 </div>
@@ -153,11 +164,11 @@ export default {
             var patt = /[a-z]+/i
 
             if((patt.test(phone) || phone.length != 11)){
-                validator.unmatchpassword = true
-                validator.unmatchpasswordmsg = "<ul class='alert alert-danger p-0 m-1'><li>Only numeric characters required</li><li>Number must be 11 digits</li></ul>"
+                validator.userphoneerror = true
+                validator.userphoneerrormsg = "<ul class='text-red-500'><li>Only numeric characters required</li><li>Number must be 11 digits</li></ul>"
             }else{
-                validator.unmatchpassword = false
-                validator.unmatchpasswordmsg = ""
+                validator.userphoneerror = false
+                validator.userphoneerrormsg = ""
             }
         }
 
@@ -165,19 +176,30 @@ export default {
             let pword1 = regData.password
             let pword2 = repassword.value
             
-            if(pword1 != pword2){
-                validator.userphoneerror = true
-                validator.userphoneerrormsg = "<b class='p-2'>Passwords do not match</b>"
+            if(pword1.length < 8){
+                validator.unmatchpassword = true
+                validator.unmatchpasswordmsg = "<b class='text-red-500'>Passwords must be 8 Characters or more</b>"
+            }else if(pword1 != pword2){
+                validator.unmatchpassword = true
+                validator.unmatchpasswordmsg = "<b class='text-red-500'>Passwords do not match</b>"
             }else{
-                validator.userphoneerror = false
-                validator.userphoneerrormsg = "<b class='p-2'>Passwords do not match</b>"
+                validator.unmatchpassword = false
+                validator.unmatchpasswordmsg = ""
             }
         }
 
+        let regResponse = ref("");
         function regUser(){
             // if()
-            userstore.registerUser(regData).then(() => {
-
+            userstore.registerUser(regData).then((response) => {
+                
+                if(response.signedup){
+                    regData.first_name =""; regData.surname ="";regData.email =""; regData.phone =""; regData.username =""; regData.bank_name =""; regData.first_name =""; regData.surname = ""
+                    regData.email =""; regData.phone =""; regData.username =""; regData.bank_name=""; regData.account_name=""; regData.account_number=""; regData.next_of_kin = ""
+                    regData.next_of_kin_phone=""; regData.address=""; regData.referrer_id=""; regData.voucher_pin = ""; regData.password = "";
+                    repassword.value = ""  
+                }
+                regResponse.value = response
             })
         }
 
@@ -191,7 +213,9 @@ export default {
             regUser,
             confirmpassword,
             validatephone,
-            validator
+            validator,
+            repassword,
+            regResponse
         }
     }
 }

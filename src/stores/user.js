@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import userservice from "@/services/userservice"
+import userservice from "@/services/userservice.js"
 
 export const useUser = defineStore("user", {
     state : () => {
@@ -11,7 +11,7 @@ export const useUser = defineStore("user", {
     },
     actions : {
         loginUser(userObj){
-            userservice.logger(userObj).then((response) => {
+            return userservice.logger(userObj).then((response) => {
                 this.details = response.data.details
                 this.loggedin = response.data.loggedin
                 
@@ -19,7 +19,8 @@ export const useUser = defineStore("user", {
             })
         },
         registerUser(userObj){
-            userservice.register(userObj).then((response) => {
+            // console.log(userObj)
+            return userservice.register(userObj).then((response) => {
                 return response.data
             })
         }
