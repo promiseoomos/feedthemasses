@@ -21,5 +21,23 @@ export default {
             action : "signup",
             userObj
         })
+    },
+    retrieveDownlines(track_id){
+        return apiClient.post("user.class.php", {
+            action : "get-downlines",
+            track_id
+        })
+    },
+    updateuser(userObj){
+        return apiClient.post("user.class.php", {
+            action : "update-user",
+            userObj
+        })
+    },
+    upgradeUserNow(upgradeObj){
+        return apiClient.post("user.class.php", {
+            action : "upgrade-user",
+            upgradeObj
+        })
     }
 }

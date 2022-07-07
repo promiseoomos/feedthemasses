@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkfeedthemasses"]=self["webpackChunkfeedthemasses"]||[]).push([[711],{4711:function(e,t,n){n.r(t),n.d(t,{default:function(){return f}});var s=n(3396);const r=(0,s._)("div",{class:"bg-white rounded-md min-h-screen text-center p-3 overflow-x"},[(0,s._)("p",{class:"text-3xl font-black text-black"},"No Rewards yet")],-1),c=[r];function u(e,t,n,r,u,a){return(0,s.wg)(),(0,s.iD)("div",null,c)}var a={setup(){return{}}},d=n(89);const l=(0,d.Z)(a,[["render",u]]);var f=l}}]);
+//# sourceMappingURL=711.a4d79439.js.map

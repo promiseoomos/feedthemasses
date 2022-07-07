@@ -62,6 +62,23 @@ const routes = [
             component : () => import("../views/UpgradeView.vue")
         }
     ]
+  },
+  {
+      path : "/securedlogin",
+      name : "sadminlogin",
+      component : () => import("../views/AdminLogin.vue")
+  },
+  {
+    path : "/adf8d9234min",
+    name : "securedadmin",
+    component : () => import("../views/AdminView.vue"),
+    children : [
+        {
+            path : "home",
+            name : "adminhome",
+            component : () => import("../views/AdminHomeView.vue")
+        }
+    ]
   }
 ];
 

@@ -5,7 +5,7 @@
         
             <form @submit.prevent="regUser">
                 <div class="relative z-0 w-full mb-6 group">
-                    <input type="text" name="refferer_id" v-model="regData.referer_id" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                    <input type="text" name="refferer_id" v-model="regData.referrer_id" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
                     <label for="refferer_id" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Refferer ID</label>
                 </div>
                 <div class="relative z-0 w-full mb-6 group">
@@ -104,7 +104,7 @@
 
 <script>
 import { reactive, toRefs, computed, ref } from 'vue'
-import { useUser } from "@/stores/user"
+import { userStore } from "@/stores/user"
 // import InputText from 'primevue/inputtext';
 
 
@@ -117,7 +117,7 @@ export default {
             count: 0,
         })
 
-        const userstore = useUser()
+        const userstore = userStore()
         const regData = reactive({
             first_name : "",
             surname : "",
@@ -147,10 +147,10 @@ export default {
             counter : 6,
             loggedin : true
         })
-        userstore.$subscribe((mutation, state) => {
-            mutation.type
-            localStorage.setItem('userdetails', JSON.stringify(state))
-        })
+        // userstore.$subscribe((mutation, state) => {
+        //     mutation.type
+        //     localStorage.setItem('userdetails', JSON.stringify(state))
+        // })
 
         const chkfields = computed(() => {
             return regData.first_name.length <= 0 || regData.surname.length <= 0 || regData.email.length <= 0 || regData.username.length <= 0 ||
@@ -203,7 +203,7 @@ export default {
             })
         }
 
-        userstore.counter++
+        // userstore.counter++
     
         return {
             ...toRefs(state),

@@ -33,4 +33,27 @@ create table voucher(
     PRIMARY KEY (id)
 )
 
+create table collections (
+    id int AUTO_INCREMENT, 
+    track_id varchar(400) not null UNIQUE,
+    user_id varchar(400) not null,
+    stage varchar(400) not null,
+    status varchar(400) not null DEFAULT 'Uncollected',
+    admin_id varchar(400) not null,
+    date_requested datetime DEFAULT CURRENT_TIMESTAMP,
+    date_approved varchar(400) not null,
+    PRIMARY KEY(id)
+)
+
+create table upgrades (
+    id int AUTO_INCREMENT,
+    track_id varchar(400) not null,
+    user_id varchar(400) not null,
+    old_stage varchar(400) not null,
+    new_stage varchar(400) not null,
+    stage_lifters longtext not null,
+    date_upgraded datetime DEFAULT CURRENT_TIMESTAMP,
+    primary key(id)
+)
+
 <a href="https://www.flaticon.com/free-icons/time" title="time icons">Time icons created by Freepik - Flaticon</a>

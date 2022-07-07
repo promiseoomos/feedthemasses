@@ -24,7 +24,7 @@
 
                 <router-link :to="{ name : 'matrix' }" active-class="bg-gray-600/[0.4]" @click="$emit('routeChanged')" class="text-black w-full flex rounded-md p-3 mt-3 hover:bg-gray-400">
                     <img src="../assets/011-people.png" alt="Feed" class="w-8 h-7 mr-5">
-                    <span class="font-black">View Downlines Matrix</span>
+                    <span class="font-black">Genealogy</span>
                 </router-link>
 
                 <router-link :to="{ name : 'rewards' }" active-class="bg-gray-600/[0.4]" @click="$emit('routeChanged')" class="text-black w-full flex rounded-md p-3 mt-3 hover:bg-gray-400">

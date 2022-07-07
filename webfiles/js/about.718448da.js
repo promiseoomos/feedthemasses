@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkfeedthemasses"]=self["webpackChunkfeedthemasses"]||[]).push([[443],{7381:function(e,s,n){n.r(s),n.d(s,{default:function(){return o}});var t=n(3396);const a={class:"about"},u=(0,t._)("h1",null,"This is an about page",-1),r=[u];function c(e,s){return(0,t.wg)(),(0,t.iD)("div",a,r)}var f=n(89);const i={},h=(0,f.Z)(i,[["render",c]]);var o=h}}]);
+//# sourceMappingURL=about.718448da.js.map
