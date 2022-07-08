@@ -39,5 +39,18 @@ export default {
             action : "upgrade-user",
             upgradeObj
         })
+    },
+    collectReward(stage, track_id){
+        return apiClient.post("user.class.php", {
+            action : "collect-reward",
+            stage,
+            track_id
+        })
+    },
+    getCollections(track_id){
+        return apiClient.post("user.class.php", {
+            action : "get-collection",
+            track_id
+        })
     }
 }

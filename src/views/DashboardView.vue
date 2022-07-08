@@ -9,7 +9,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-8">
             <SidebarBase class="col-span-2 z-50 absolute lg:static w-full lg:w-fit lg:hidden" @route-changed="showsidebar = false" v-if="showsidebar"/>
-            <SidebarBase class="col-span-2 z-50 absolute lg:static w-full lg:w-fit hidden lg:block"/>
+            <SidebarBase class="col-span-2 z-50 absolute lg:static w-full lg:w-full hidden lg:block"/>
             <router-view class="bg-gray-300 col-span-6 h-screen -ml-1 p-3"></router-view>
             
         </div>

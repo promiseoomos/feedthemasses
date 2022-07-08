@@ -659,8 +659,51 @@ SQLite;
 
     }
 
-    public function requestCollection(){
+    public function requestCollection($conn, $stage, $track_id){
+        $trackid = $this->checktrackid($conn, "collections");
 
+        try {
+            $sql = "INSERT INTO `collections`( `track_id`, `user_id`, `stage`) VALUES ('$trackid','$track_id', '$stage')";
+            $query = $conn->prepare($sql);
+            $query->execute();
+
+            $return = Array(
+                "status" => true
+            );
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        echo json_encode($return);
+    }
+
+    public function getCollections($conn, $track_id){
+
+        try {
+            $sql = "select * from collections where user_id = '$track_id'";
+            $query = $conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAll();
+            $countcollections = count($result);
+            $collections = Array();
+
+            if($countcollections > 0){
+                foreach($result as $row){
+                    $stage = $row['stage'];
+                    $status = $row['status'];
+
+                    $collections[] = Array(
+                        "stage" => $stage,
+                        "status" => $status
+                    );
+                }
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        echo json_encode($collections);
     }
 
     public function upgradeUser($conn, $upgradeObj){
@@ -716,5 +759,11 @@ switch($data->action){
     break;
     case "upgrade-user" :
         $session->upgradeUser($conn, $data->upgradeObj);
+    break;
+    case "collect-reward" : 
+        $session->requestCollection($conn, $data->stage, $data->track_id);
+    break;
+    case "get-collection" :
+        $session->getCollections($conn, $data->track_id);
     break;
 }

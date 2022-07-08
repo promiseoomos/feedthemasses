@@ -204,6 +204,27 @@ SQLite;
                     $resultreferrals = $queryreferrals->fetchAll();
                     $countreferrals = count($resultreferrals);
 
+                    switch($row['stage']){
+                        case 0 :
+                            $stage_name = "Feeders";
+                        break;
+                        case 1 :
+                            $stage_name = "Bronze";
+                        break;
+                        case 2 :
+                            $stage_name = "Silver";
+                        break;
+                        case 3 :
+                            $stage_name = "Gold";
+                        break;
+                        case 4 :
+                            $stage_name = "Diamond";
+                        break;
+                        case 5 :
+                            $stage_name = "Platinum";
+                        break;
+                    }
+
                     $newdetails = array(
                         "first_name" => $row['first_name'],
                         "surname" => $row['surname'],
@@ -220,7 +241,8 @@ SQLite;
                         "referrer_id" => $row['referrer_id'],
                         "referrer_username" => $sponsor_username,
                         "referrals_count" => $countreferrals,
-                        "stage" => $row['stage'],
+                        "stage" => (Int) $row['stage'],
+                        "stage_name" => $stage_name,
                         "track_id" => $row['track_id'],
                     );
             }
@@ -262,6 +284,45 @@ SQLite;
 
         try{
 
+            $sqluser = "select * from users where track_id = '$track_id'";
+            $queryuser = $conn->prepare($sqluser);
+            $queryuser->execute();
+            $resultuser = $queryuser->fetchAll();
+            $countuser = count($resultuser);
+
+            $stagename = function($userstage){
+                switch($userstage){
+                    case 0 :
+                        $stage_name = "Feeders";
+                    break;
+                    case 1 :
+                        $stage_name = "Bronze";
+                    break;
+                    case 2 :
+                        $stage_name = "Silver";
+                    break;
+                    case 3 :
+                        $stage_name = "Gold";
+                    break;
+                    case 4 :
+                        $stage_name = "Diamond";
+                    break;
+                    case 5 :
+                        $stage_name = "Platinum";
+                    break;
+                }
+
+                return $stage_name;
+            };
+
+            if($countuser > 0){
+                foreach($resultuser as $rowuser){
+                    $userstage = $rowuser['stage'];
+                    $stage_name = $stagename($userstage);
+                    
+                }
+            }
+
             $sql = "Select * from users where referrer_id = '$track_id' limit 3";
             $query = $conn->prepare($sql);
             $query->execute();
@@ -272,8 +333,16 @@ SQLite;
             
             $downlines = Array();
             $deepLevel = 0;
+            $downlinestages = Array();
 
             if($count > 0){
+                
+                if($count == 3){
+                    $ripeforupgrade = true;
+                    $upgradeto = 1;
+                    $upgradetoname = $stagename($upgradeto);
+                }
+
                 $deepLevel += 1;
                 $downlines[] = Array(
                     "name" => "first_level",
@@ -285,6 +354,14 @@ SQLite;
                     $track_id = $row['track_id'];
                     $upline = $row['referrer_id'];
                     $stage = $row['stage'];
+                    $stage_name = $stagename($stage);
+
+                    $downlinestages[] = Array(
+                        "track_id" => $track_id,
+                        "stage" => $stage,
+                        "stage_name" => $stage_name, 
+                        "username" => $username
+                    );
 
                     $leveluid[] = $track_id;
 
@@ -292,7 +369,8 @@ SQLite;
                         "username" => $username,
                         "userid" => $track_id,
                         "uplineid" => $upline,
-                        "stage" => $stage
+                        "stage" => $stage,
+                        "stage_name" => $stage_name
                     );
 
                 }
@@ -321,6 +399,14 @@ SQLite;
                                     $track_id = $rowlevel2['track_id'];
                                     $upline = $rowlevel2['referrer_id'];
                                     $stage = $rowlevel2['stage'];
+                                    $stage_name = $stagename($stage);
+
+                                    $downlinestages[] = Array(
+                                        "track_id" => $track_id,
+                                        "stage" => $stage,
+                                        "username" => $username,
+                                        "stage_name" => $stage_name
+                                    );
 
                                     $leveluid2[] = $track_id;
                 
@@ -328,7 +414,8 @@ SQLite;
                                         "username" => $username,
                                         "userid" => $track_id,
                                         "uplineid" => $upline,
-                                        "stage" => $stage
+                                        "stage" => $stage,
+                                        "stage_name" => $stage_name
                                     );
                                 }
                             }
@@ -365,12 +452,21 @@ SQLite;
                                     $upline = $rowlevel3['referrer_id'];
                                     $stage = $rowlevel3['stage'];
                                     $leveluid3[] = $track_id;
+                                    $stage_name = $stagename($stage);
+
+                                    $downlinestages[] = Array(
+                                        "track_id" => $track_id,
+                                        "stage" => $stage,
+                                        "stage_name" => $stage_name,
+                                        "username" => $username
+                                    );
                 
                                     $downlines[2]["referrals"][] = Array(
                                         "username" => $username,
                                         "userid" => $track_id,
                                         "uplineid" => $upline,
-                                        "stage" => $stage
+                                        "stage" => $stage,
+                                        "stage_name" => $stage_name
                                     );
                                 }
                             }
@@ -408,12 +504,21 @@ SQLite;
                                     $upline = $rowlevel4['referrer_id'];
                                     $stage = $rowlevel4['stage'];
                                     $leveluid4[] = $track_id;
+                                    $stage_name = $stagename($stage);
+
+                                    $downlinestages[] = Array(
+                                        "track_id" => $track_id,
+                                        "stage" => $stage,
+                                        "stage_name" => $stage_name,
+                                        "username" => $username
+                                    );
                 
                                     $downlines[3]["referrals"][] = Array(
                                         "username" => $username,
                                         "userid" => $track_id,
                                         "uplineid" => $upline,
-                                        "stage" => $stage
+                                        "stage" => $stage,
+                                        "stage_name" => $stage_name
                                     );
                                 }
                             }
@@ -450,12 +555,21 @@ SQLite;
                                     $upline = $rowlevel5['referrer_id'];
                                     $stage = $rowlevel5['stage'];
                                     $leveluid5[] = $track_id;
+                                    $stage_name = $stagename($stage);
+
+                                    $downlinestages[] = Array(
+                                        "track_id" => $track_id,
+                                        "stage" => $stage,
+                                        "stage_name" => $stage_name,
+                                        "username" => $username
+                                    );
                 
                                     $downlines[4]["referrals"][] = Array(
                                         "username" => $username,
                                         "userid" => $track_id,
                                         "uplineid" => $upline,
-                                        "stage" => $stage
+                                        "stage" => $stage,
+                                        "stage_name" => $stage_name
                                     );
                                 }
                             }
@@ -466,12 +580,59 @@ SQLite;
                         }
                     }
 
-                } 
+                }
+
+                $totaldownlines = count($leveluid) + count($leveluid2) + count($leveluid3) + count($leveluid4) + count($leveluid5);
+
+                $upgradesponsors = Array();
+
+                if($totaldownlines >= 3){
+
+                
+                    // echo "--$userstage--";
+                    switch($userstage){
+                        case 0:
+                            $upgradesponsors = array_splice($downlinestages,0,3);
+                        break;
+                        case 1:
+                            $requiredindex = 0;
+                            foreach($downlinestages as $dstage){
+                            
+                                if($dstage["stage"] > 0){
+                                    $upgradesponsors[] = $dstage;
+
+                                    $requiredindex += 1;
+                                }
+
+                                if($requiredindex == 12){
+                                    break;
+                                }
+                            }
+
+                            if(count($upgradesponsors) == 12){
+                                $ripeforupgrade = true;
+                                $upgradeto = 2;
+                                $upgradetoname = $stagename($upgradeto);
+                            }else{
+                                $ripeforupgrade = false;
+                                $upgradeto = 2;
+                                $upgradetoname = $stagename($upgradeto);
+                            }
+                        break;
+                    }
+                }
+                // print_r($downlinestages);
+
 
                 $return = Array(
                     "hasReferrals" => true,
                     "deepLevel" => $deepLevel,
                     "data" => $downlines,
+                    "totaldownlines" => $totaldownlines,
+                    "ripeforupgrade" => $ripeforupgrade,
+                    "upgradeto" => $upgradeto,
+                    "upgradetoname" => $upgradetoname,
+                    "upgradesponsors" => $upgradesponsors
                 );
             }else{
                 $return = Array(
@@ -501,6 +662,39 @@ SQLite;
     public function requestCollection(){
 
     }
+
+    public function upgradeUser($conn, $upgradeObj){
+        $newlevel = $upgradeObj->newlevel;
+        $oldlevel = $upgradeObj->oldlevel;
+        $userid = $upgradeObj->track_id;
+        $upgrade_downlines = json_encode($upgradeObj->upgradedownlines);
+        $track_id = $this->checktrackid($conn, "upgrades");
+
+        try {
+            $sql = "INSERT INTO `upgrades`(`track_id`, `user_id`, `old_stage`, `new_stage`, `stage_downlines`) VALUES ('$track_id', '$userid', '$oldlevel', '$newlevel','$upgrade_downlines')";
+            $query = $conn->prepare($sql);
+            $query->execute();
+
+            if($query){
+
+                $return = Array(
+                    "status" => true,
+                    "msg" => "User Upgraded Successfully to Stage $newlevel"
+                );
+
+                $sqlupdate = "UPDATE `users` SET `stage`= '$newlevel' WHERE track_id = '$userid'";
+                $queryupdate = $conn->prepare($sqlupdate);
+                $queryupdate->execute();
+            }
+
+
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        echo json_encode($return);
+    }
 }
 
 $data = json_decode(file_get_contents("php://input"));
@@ -519,5 +713,8 @@ switch($data->action){
     break;
     case "update-user" :
         $session->updateUser($conn, $data->userObj);
+    break;
+    case "upgrade-user" :
+        $session->upgradeUser($conn, $data->upgradeObj);
     break;
 }
