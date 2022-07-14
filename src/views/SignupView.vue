@@ -27,8 +27,11 @@
                 </div>
                 <div class="grid xl:grid-cols-2 xl:gap-6">
                     <div class="relative z-0 w-full mb-6 group">
-                        <input type="text" name="username" v-model="regData.username" id="username" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                        <input type="text" name="username" v-model="regData.username" @keyup="validateusername()" id="username" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
                         <label for="username" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Username</label>
+                        <div v-if="validator.usernameerror" class="">
+                            <p v-html="validator.usernameerrormsg"></p>
+                        </div>
                     </div>
                     <div class="relative z-0 w-full mb-6 group">
                         <input type="tel" name="phone" v-model="regData.phone" @keyup="validatephone()" id="phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
@@ -36,6 +39,7 @@
                         <div v-if="validator.userphoneerror" class="">
                             <p v-html="validator.userphoneerrormsg"></p>
                         </div>
+                        
                     </div>
 
                 </div>
@@ -51,8 +55,11 @@
                         <label for="next_of_kin" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Next of Kin</label>
                     </div>
                     <div class="relative z-0 w-full mb-6 group">
-                        <input type="tel" v-model="regData.next_of_kin_phone" name="next_of_kin_phone" id="next_of_kin_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                        <input type="tel" v-model="regData.next_of_kin_phone" @keyup="validatephonekin()" name="next_of_kin_phone" id="next_of_kin_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
                         <label for="next_of_kin_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Next of Kin Phone</label>
+                         <div v-if="validator.kinphoneerror" class="">
+                            <p v-html="validator.kinphoneerrormsg"></p>
+                        </div>
                     </div>
                 </div>
 
@@ -67,8 +74,11 @@
                         <label for="account_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Account Name</label>
                     </div>
                     <div class="relative z-0 w-full mb-6 group">
-                        <input type="text" name="account_number" v-model="regData.account_number" id="account_number" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                        <input type="text" name="account_number" v-model="regData.account_number" @keyup="validateacctnum()" id="account_number" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
                         <label for="account_number" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Account Number</label>
+                        <div v-if="validator.acctnumbererror" class="">
+                            <p v-html="validator.acctnumbererrormsg"></p>
+                        </div>
                     </div>
                 </div>
                 <div class="relative z-0 w-full mb-6 group">
@@ -94,7 +104,7 @@
             </form>
             <div class="text-center pt-5">
                 <p>Or</p>
-                <router-link :to="{ name : 'login'}" class="pt-3 block text-cyan-800 hover:text-cyan-600">Login</router-link>
+                <router-link :to="{ name : 'login'}" class="pt-3 inline-block text-cyan-800 hover:text-cyan-600">Login</router-link>
             </div>
             
 
@@ -139,8 +149,14 @@ export default {
         const validator = reactive({
             userphoneerror : false,
             userphoneerrormsg : "",
+            kinphoneerror : false,
+            kinphoneerrormsg : "",
             unmatchpassword : false,
-            unmatchpasswordmsg : ""
+            unmatchpasswordmsg : "",
+            acctnumbererror : false,
+            acctnumbererrormsg : "",
+            usernameerror : false,
+            usernameerrormsg : ""
         })
 
         userstore.$patch({
@@ -156,7 +172,8 @@ export default {
             return regData.first_name.length <= 0 || regData.surname.length <= 0 || regData.email.length <= 0 || regData.username.length <= 0 ||
             regData.phone.length <= 0 || regData.password.length <= 0 || regData.bank_name.length <= 0 || regData.account_name.length <= 0 ||  
             regData.account_number.length <= 0 || regData.next_of_kin.length <= 0 || regData.next_of_kin_phone.length <= 0 || regData.address.length <= 0 || 
-            regData.voucher_pin.length <= 0 || validator.userphoneerror == true || validator.unmatchpassword == true  ? true : false
+            regData.voucher_pin.length <= 0 || validator.userphoneerror == true || validator.acctnumbererror == true || validator.usernameerror == true
+            || validator.kinphoneerror == true ? true : false
         })
 
         function validatephone(){
@@ -169,6 +186,48 @@ export default {
             }else{
                 validator.userphoneerror = false
                 validator.userphoneerrormsg = ""
+            }
+        }
+
+        function validatephonekin(){
+
+            let phone = regData.next_of_kin_phone
+            var patt = /[a-z]+/i
+
+            if((patt.test(phone) || phone.length != 11)){
+                validator.kinphoneerror = true
+                validator.kinphoneerrormsg = "<ul class='text-red-500'><li>Only numeric characters required</li><li>Number must be 11 digits</li></ul>"
+            }else{
+                validator.kinphoneerror = false
+                validator.kinphoneerrormsg = ""
+            }
+        }
+
+        function validateacctnum(){
+
+            let acctnumber = regData.account_number
+            var patt = /[a-z]+/i
+
+            if((patt.test(acctnumber) || acctnumber.length != 10)){
+                validator.acctnumbererror = true
+                validator.acctnumbererrormsg = "<ul class='text-red-500'><li>Only numeric characters required</li><li>Account Number must be 10 digits</li></ul>"
+            }else{
+                validator.acctnumbererror = false
+                validator.acctnumbererrormsg = ""
+            }
+        }
+
+        function validateusername(){
+
+            let username = regData.username
+            var patt = /\s+/i
+
+            if((patt.test(username) || username.length < 5)){
+                validator.usernameerror = true
+                validator.usernameerrormsg = "<ul class='text-red-500'><li>Username cannot contain spaces</li><li>Username must be 5 characters or more</li></ul>"
+            }else{
+                validator.usernameerror = false
+                validator.usernameerrormsg = ""
             }
         }
 
@@ -215,7 +274,10 @@ export default {
             validatephone,
             validator,
             repassword,
-            regResponse
+            regResponse,
+            validatephonekin,
+            validateacctnum,
+            validateusername
         }
     }
 }

@@ -8,8 +8,8 @@
         </button>
 
         <div class="grid grid-cols-1 lg:grid-cols-8">
-            <SidebarBase class="col-span-2 z-50 absolute lg:static w-full lg:w-fit lg:hidden" @route-changed="showsidebar = false" v-if="showsidebar"/>
-            <SidebarBase class="col-span-2 z-50 absolute lg:static w-full lg:w-fit hidden lg:block" v-if="showsidebar"/>
+            <SidebarBase2 class="col-span-2 z-50 absolute lg:static w-full lg:w-fit lg:hidden" @route-changed="showsidebar = false" v-if="showsidebar"/>
+            <SidebarBase2 class="col-span-2 z-50 absolute lg:static w-full lg:w-full hidden lg:block"/>
             <router-view class="bg-gray-300 col-span-6 h-screen -ml-1 p-3"></router-view>
             
         </div>
@@ -17,22 +17,32 @@
 </template>
 
 <script>
-import SidebarBase from "@/components/SidebarBase"
+import SidebarBase2 from "@/components/SidebarBase2"
 import { ref, onBeforeMount } from "vue"
 import { adminStore } from "@/stores/admin";
 import { useRoute, useRouter } from "vue-router";
 
 export default  {
     components : {
-        SidebarBase
+        SidebarBase2
     },
     setup() {
 
-        const showsidebar = ref(true);
+        const showsidebar = ref(false);
         const adminstore = adminStore()
         let lastknownstate = ""
 
         const router = useRouter()
+
+        let locationorigin = window.location.origin
+        let regexpatt = /\W?\d*$/
+        adminstore.origin = locationorigin.replace(regexpatt, "");
+        
+
+        adminstore.getInfostats();
+        adminstore.getVouchers();
+        adminstore.getCollections()
+        adminstore.getUsers()
 
         if(adminstore.loggedin){
             adminstore.$subscribe((state) => {

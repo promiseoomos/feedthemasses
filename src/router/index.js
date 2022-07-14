@@ -77,6 +77,21 @@ const routes = [
             path : "home",
             name : "adminhome",
             component : () => import("../views/AdminHomeView.vue")
+        },
+        {
+            path : "generatevouchers",
+            name : "generatevouchers",
+            component : () => import("../views/VouchersView.vue")
+        },
+        {
+            path : "allusers",
+            name : "allusers",
+            component : () => import("../views/UsersView.vue")
+        },
+        {
+            path : "collections",
+            name : "collections",
+            component : () => import("../views/CollectionsView.vue")
         }
     ]
   }

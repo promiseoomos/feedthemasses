@@ -31,6 +31,8 @@ class User extends Functions {
         $track_id = $this->checktrackid($conn, "users");
 
         try {
+            // This pumpplace checks if the Current Referrer has complete 3 referrals. If Yes
+            // The pumplace looks for the nearest downline that has not completed its 3 referrals
             pumpplace:
             $sqlref = "select * from users where referrer_id = '$referrer_id' order by RAND()";
             $queryref = $conn->prepare($sqlref);
@@ -54,6 +56,31 @@ class User extends Functions {
         } catch (PDOException $e) {
             //throw $th;
         }
+
+        try {
+        
+            $sqlref = "select * from users where username = '$username'";
+            $queryref = $conn->prepare($sqlref);
+            $queryref->execute();
+            $resultref = $queryref->fetchAll();
+
+            $countref = count($resultref);
+
+            if($countref > 0){
+                $return = Array(
+                    "msg" => "username already exists. Please Choose a different username.",
+                    "signedup" => false,
+                    "reason" => "username_exists"
+                );
+
+                goto resolution;
+            }
+
+        } catch (PDOException $e) {
+            //throw $th;
+        }
+
+
         
 
         $insert = true;
@@ -619,6 +646,106 @@ SQLite;
                                 $upgradetoname = $stagename($upgradeto);
                             }
                         break;
+                        case 2:
+                            $requiredindex = 0;
+                            foreach($downlinestages as $dstage){
+                            
+                                if($dstage["stage"] > 1){
+                                    $upgradesponsors[] = $dstage;
+
+                                    $requiredindex += 1;
+                                }
+
+                                if($requiredindex == 12){
+                                    break;
+                                }
+                            }
+
+                            if(count($upgradesponsors) == 12){
+                                $ripeforupgrade = true;
+                                $upgradeto = 3;
+                                $upgradetoname = $stagename($upgradeto);
+                            }else{
+                                $ripeforupgrade = false;
+                                $upgradeto = 3;
+                                $upgradetoname = $stagename($upgradeto);
+                            }
+                        break;
+                        case 3 : 
+                            $requiredindex = 0;
+                            foreach($downlinestages as $dstage){
+                            
+                                if($dstage["stage"] > 3){
+                                    $upgradesponsors[] = $dstage;
+
+                                    $requiredindex += 1;
+                                }
+
+                                if($requiredindex == 12){
+                                    break;
+                                }
+                            }
+
+                            if(count($upgradesponsors) == 12){
+                                $ripeforupgrade = true;
+                                $upgradeto = 4;
+                                $upgradetoname = $stagename($upgradeto);
+                            }else{
+                                $ripeforupgrade = false;
+                                $upgradeto = 4;
+                                $upgradetoname = $stagename($upgradeto);
+                            }
+                        break;
+                        case 4 :
+                            $requiredindex = 0;
+                            foreach($downlinestages as $dstage){
+                            
+                                if($dstage["stage"] > 4){
+                                    $upgradesponsors[] = $dstage;
+
+                                    $requiredindex += 1;
+                                }
+
+                                if($requiredindex == 12){
+                                    break;
+                                }
+                            }
+
+                            if(count($upgradesponsors) == 12){
+                                $ripeforupgrade = true;
+                                $upgradeto = 5;
+                                $upgradetoname = $stagename($upgradeto);
+                            }else{
+                                $ripeforupgrade = false;
+                                $upgradeto = 5;
+                                $upgradetoname = $stagename($upgradeto);
+                            }
+                        break;
+                        case 5 :
+                            $requiredindex = 0;
+                            foreach($downlinestages as $dstage){
+                            
+                                if($dstage["stage"] > 0){
+                                    $upgradesponsors[] = $dstage;
+
+                                    $requiredindex += 1;
+                                }
+
+                                if($requiredindex == 12){
+                                    break;
+                                }
+                            }
+
+                            if(count($upgradesponsors) == 12){
+                                $ripeforupgrade = false;
+                                $upgradeto = 5;
+                                $upgradetoname = $stagename($upgradeto);
+                            }else{
+                                $ripeforupgrade = false;
+                                $upgradeto = 5;
+                                $upgradetoname = $stagename($upgradeto);
+                            }
+
                     }
                 }
                 // print_r($downlinestages);
@@ -657,10 +784,84 @@ SQLite;
 
     public function updateUser($conn, $userObj){
 
+        $first_name = $userObj->first_name;
+        $surname = $userObj->surname;
+        // $username = $userObj->username;
+        $phone = $userObj->phone;
+        $bank_name = $userObj->bank_name;
+        $account_name = $userObj->account_name;
+        $account_number = $userObj->account_number;
+        $next_of_kin = $userObj->next_of_kin;
+        $next_of_kin_phone = $userObj->next_of_kin_phone;
+        $address = $userObj->address;
+        $track_id = $userObj->track_id;
+
+        try {
+            $sql =<<<SQlite
+            UPDATE `users` SET `first_name`='$first_name',`surname`='$surname', `phone`='$phone',`address`='$address',`next_of_kin`='$next_of_kin',`next_of_kin_phone`='$next_of_kin_phone',
+            `bank_name`='$bank_name',`account_name`='$account_name',`account_number`='$account_number' WHERE track_id = '$track_id'
+SQlite;
+            $query = $conn->prepare($sql);
+            $query->execute();
+
+            if($query){
+                $return = Array(
+                    "status" => true,
+                    "msg" => "Profile updated Successfully"
+                );
+            }
+
+            echo json_encode($return);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 
-    public function requestCollection(){
+    public function requestCollection($conn, $stage, $track_id){
+        $trackid = $this->checktrackid($conn, "collections");
 
+        try {
+            $sql = "INSERT INTO `collections`( `track_id`, `user_id`, `stage`) VALUES ('$trackid','$track_id', '$stage')";
+            $query = $conn->prepare($sql);
+            $query->execute();
+
+            $return = Array(
+                "status" => true
+            );
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        echo json_encode($return);
+    }
+
+    public function getCollections($conn, $track_id){
+
+        try {
+            $sql = "select * from collections where user_id = '$track_id'";
+            $query = $conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAll();
+            $countcollections = count($result);
+            $collections = Array();
+
+            if($countcollections > 0){
+                foreach($result as $row){
+                    $stage = $row['stage'];
+                    $status = $row['status'];
+
+                    $collections[] = Array(
+                        "stage" => $stage,
+                        "status" => $status
+                    );
+                }
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        echo json_encode($collections);
     }
 
     public function upgradeUser($conn, $upgradeObj){
@@ -716,5 +917,11 @@ switch($data->action){
     break;
     case "upgrade-user" :
         $session->upgradeUser($conn, $data->upgradeObj);
+    break;
+    case "collect-reward" : 
+        $session->requestCollection($conn, $data->stage, $data->track_id);
+    break;
+    case "get-collection" :
+        $session->getCollections($conn, $data->track_id);
     break;
 }

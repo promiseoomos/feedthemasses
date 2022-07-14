@@ -4,9 +4,11 @@
         <div class="">
             <p class="text-xl font-bold">You are currently in {{ details.stage_name }} Stage</p>
             <p v-if="downlines.upgradesponsors.length > 0" class="rounded-lg p-2 w-fit mx-auto bg-cyan-500 text-white">
-                Upgrade to Next Stage with
+                Upgrade to Next Stage with this Downlines
             </p>
             <div v-if="downlines.upgradesponsors.length > 0">
+                <p class="text-lg font-medium" v-if="downlines.upgradesponsors.length < 12">To be Eligible for an Upgrade, 12 of your downlines has to be in {{ details.stage_name }} Stage</p>
+                <p>You have {{ downlines.upgradesponsors.length }} downline{{ downlines.upgradesponsors.length > 1 ? 's' : 's' }} in {{ details.stage_name }} Stage</p>
                 <div v-for="(downlines, index) in downlines.upgradesponsors" :key="index" class="flex flex-wrap mt-2 text-left">
                     <img class="w-16" src="../assets/012-profile.png">
                     <div class="w-1/2 p-3">

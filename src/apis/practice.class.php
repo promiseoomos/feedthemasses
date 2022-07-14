@@ -28,24 +28,24 @@ function generateVoucher(){
     return $ref;
 }
 
-// $fh = fopen("../apis/vouchers.txt", "w+");
+$fh = fopen("../apis/vouchers.txt", "w+");
 
-// // $sql = "INSERT INTO `voucher`(`track_id`, `voucher_pin`, ) VALUES ()";
+// $sql = "INSERT INTO `voucher`(`track_id`, `voucher_pin`, ) VALUES ()";
 
-// for($i=0; $i<= 10000; $i++){
-//     $voucher = generateVoucher();
+for($i=0; $i<= 10000; $i++){
+    $voucher = generateVoucher();
 
-//     // echo $voucher;
-//     // echo "<br>";
-//     $trackid = "{$i}00{$voucher}";
-//     $sql = "INSERT INTO `voucher`(`track_id`, `voucher_pin`) VALUES ('$trackid', '$voucher')";
-//     $query = $conn->prepare($sql);
-//     $query->execute();
+    // echo $voucher;
+    // echo "<br>";
+    $trackid = "{$i}00{$voucher}";
+    $sql = "INSERT INTO `voucher`(`track_id`, `voucher_pin`) VALUES ('$trackid', '$voucher')";
+    $query = $conn->prepare($sql);
+    $query->execute();
 
-//     fwrite($fh, $i+1 . ". ");
-//     fwrite($fh, $voucher);
-//     fwrite($fh, "\n");
-// }
+    fwrite($fh, $i+1 . ". ");
+    fwrite($fh, $voucher);
+    fwrite($fh, "\n");
+}
 
-// fclose($fh);
+fclose($fh);
 
