@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex flex-nowrap gap-4 lg:text-center text-right p-3 border-b-2 border-b-gray-300 overflow-x-auto text-xs lg:text-md">
+        <div class="flex flex-nowrap gap-4 lg:text-center text-right p-3 border-b-2 border-b-gray-300 overflow-x-auto text-xs lg:text-sm">
             <p class="w-1/3">{{ sn + ((page - 1) * interval) }}</p>
             <!-- <p class="flex-child"><b-link :to="{ name : 'edititem', params : { trackid : item.trackid }}">{{ item.title }}</b-link></p> -->
             <p class="w-1/3">{{ item.voucher_pin }}</p>

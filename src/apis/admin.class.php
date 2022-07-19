@@ -287,7 +287,7 @@ class Admin extends Functions {
                                 "surname" => $rowuser['surname'],
                                 "username" => $rowuser['username'],
                                 "phone" => $rowuser['phone'],
-                                "User ID" => $rowuser['track_id'],
+                                "User_id" => $rowuser['track_id'],
                                 "referrer_id" => $rowuser['referrer_id'],
                                 "stage" => $rowuser['stage'],
                                 "status" => $rowuser['status'],
