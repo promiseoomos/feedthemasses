@@ -1,17 +1,19 @@
 <template>
     <NavbarBase />
     <router-view />
+    <FooterBase v-if="$route.matched[0].path != '/dashboard' && $route.matched[0].path != '/adf8d9234min'" />
 </template>
 
 <script>
 import NavbarBase from "./components/NavbarBase.vue"
-
+import FooterBase from "./components/FooterBase.vue"
 export default {
   setup() {
     
   },
   components : {
-     NavbarBase
+     NavbarBase,
+     FooterBase
   }
 }
 </script>

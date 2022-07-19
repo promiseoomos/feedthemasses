@@ -12,7 +12,8 @@
                 </div>
                 <div class="text-right overflow-x-auto">
                     <div size="overflow-x-auto">
-                        <button v-for="(page, index) in ranger" :key="index" :page="page" :class="[ pages == page ? 'bg-green-700 text-white' : '']" @click="$emit('paginator', page)" class="ml-1 page-buttons w-8 h-8 rounded-md outline-green-600 border border-green-600" size="xs" variant="outline-dark">{{ page }}</button>
+                        <div class="flex gap-16 lg:mr-10"><button @click="$emit('paginator','decrease')"><img src="@/assets/arrow-left.png" class="h-fit"/></button> {{ pages }} of {{ Math.ceil(datalength/intervalnum) }} <button @click="$emit('paginator', 'increase')"><img src="@/assets/arrow-right.png" class="h-fit"/></button> </div>
+                        <!-- <button v-for="(page, index) in ranger" :key="index" :page="page" :class="[ pages == page ? 'bg-green-700 text-white' : '']" @click="$emit('paginator', page)" class="ml-1 page-buttons w-8 h-8 rounded-md outline-green-600 border border-green-600" size="xs" variant="outline-dark">{{ page }}</button> -->
                     </div>
                 </div>
             </div>

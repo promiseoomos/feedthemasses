@@ -149,8 +149,11 @@ export const userStore = defineStore("user", {
             return await userservice.logger(userObj).then((response) => {
                 this.details = response.data.details
                 this.loggedin = response.data.loggedin
-                this.getDownlines()
-                this.getCollections(this.details.track_id)
+                if(this.loggedin){
+                    this.getDownlines()
+                    this.getCollections(this.details.track_id)
+                }
+                
 
                 return response.data.loggedin
             })
@@ -188,6 +191,10 @@ export const userStore = defineStore("user", {
                 this.collections = response.data
                 return response.data
             })
+        },
+        logOut(){
+            this.loggedin = false
+            this.details = {}
         }
 
     }

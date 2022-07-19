@@ -74,6 +74,35 @@ class Admin extends Functions {
         echo json_encode($response);
     }
 
+    public function stagename($userstage){
+
+        switch($userstage){
+            case 0 :
+                $stage_name = "Feeders";
+            break;
+            case 1 :
+                $stage_name = "Bronze";
+            break;
+            case 2 :
+                $stage_name = "Silver";
+            break;
+            case 3 :
+                $stage_name = "Gold";
+            break;
+            case 4 :
+                $stage_name = "Diamond";
+            break;
+            case 5 :
+                $stage_name = "Platinum";
+            break;
+            default :
+                $stage_name = "Feeders";
+            break;
+        }
+
+        return $stage_name;
+    }
+
     public function getInfoStats($conn){
         
         $totalusers = 0;
@@ -256,6 +285,7 @@ class Admin extends Functions {
                             $userdetails = Array(
                                 "first_name" => $rowuser['first_name'],
                                 "surname" => $rowuser['surname'],
+                                "username" => $rowuser['username'],
                                 "phone" => $rowuser['phone'],
                                 "User ID" => $rowuser['track_id'],
                                 "referrer_id" => $rowuser['referrer_id'],
@@ -274,6 +304,7 @@ class Admin extends Functions {
                         "user_id" => $row['user_id'],
                         "user_details" => $userdetails,
                         "stage" => $row['stage'],
+                        "stagename" => $this->stagename($row['stage']),
                         "option" => $row['option'],
                         "status" => $row['status'],
                         "date_approved" => $row['date_approved'],

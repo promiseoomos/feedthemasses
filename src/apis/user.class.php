@@ -250,6 +250,9 @@ SQLite;
                         case 5 :
                             $stage_name = "Platinum";
                         break;
+                        default :
+                            $stage_name = "Feeders";
+                        break;
                     }
 
                     $newdetails = array(
@@ -336,6 +339,9 @@ SQLite;
                     break;
                     case 5 :
                         $stage_name = "Platinum";
+                    break;
+                    default :
+                        $stage_name = "Feeders";
                     break;
                 }
 

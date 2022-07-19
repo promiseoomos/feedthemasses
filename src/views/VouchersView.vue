@@ -9,8 +9,8 @@
                 {{ voucher_count }} {{ voucher_count > 1 ? 'Vouchers' : 'Voucher' }} has been successfully generated.
             </div>
 
-            <div>
-                
+            <div class="text-center mt-5">
+                <a download :href="downloadurl" target="_blank" class="inline-block bg-emerald-700 hover:bg-emerald-500 p-3 text-white rounded-md w-3/5 mx-auto">Download Vouchers (Unused)</a>
             </div>
             <h3 class="text-center">All Vouchers</h3>
             <!-- <p class="text-center">Click on any title to edit</p> -->
@@ -61,7 +61,7 @@ const endss = computed(() => { return vouchers.value.datacount })
 let limitnum = endss
 let pages = ref(1)
 let downloadurl = ref("")
-let generated = ref(true)
+let generated = ref(false)
 
 
 adminstore.getVouchers().then((response) => {
@@ -79,12 +79,8 @@ watchEffect(() => {
     tabledatacount.value = vouchers.value.datacount
 })
 // console.log(usedata.value)
-
-
-function  newPage(page){
-    // alert(page)
-    pages.value = page
-    let newend = intervalnum.value * page;
+watchEffect(() => {
+    let newend = intervalnum.value * pages.value;
 
     if (newend < endss.value) {
         endnum.value = newend;
@@ -92,6 +88,15 @@ function  newPage(page){
     } else {
         endnum.value = endss.value;
         startnum.value = newend - intervalnum.value ;
+    }
+})
+
+function  newPage(action){
+
+    if(action == 'decrease'){
+        pages.value = pages.value > 1 ? pages.value = pages.value - 1 : pages.value = 1
+    }else if(action == 'increase'){
+        pages.value = pages.value < Math.ceil(vouchers.value.datacount / intervalnum.value) ? pages.value = pages.value + 1 : pages.value = Math.ceil(vouchers.value.datacount / intervalnum.value)
     }
 
 }

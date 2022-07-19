@@ -1,5 +1,6 @@
 <template>
-    <div class="bg-gradient-to-r from-white to-sky-700 h-14">
+    <div class="bg-white p-3">
+        <img src="@/assets/logo.jpg" class="ml-10" />
         <!-- <p class="text-left p-2 pt-6 text-xl font-sans font-bold">FeedtheMasses</p> -->
     </div>
 </template>
