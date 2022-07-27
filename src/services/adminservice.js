@@ -41,6 +41,18 @@ export default {
             action : "generate-vouchers",
             vouchers_count
         })
+    },
+    approveRequest(rid){
+        return apiClient.post("admin.class.php", {
+            action : "approve-request",
+            rid
+        })
+    },
+    disapproveRequest(rid){
+        return apiClient.post("admin.class.php", {
+            action : "disapprove-request",
+            rid
+        })
     }
 
 }

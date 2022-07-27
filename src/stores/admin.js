@@ -68,6 +68,18 @@ export const adminStore = defineStore("admin", {
 
                 return response.data
             })
+        },
+        async approveRequest(rid){
+            return await adminservice.approveRequest(rid).then((response) => {
+                this.getCollections();
+                return response.data
+            })
+        },
+        async disapproveRequest(rid){
+            return await adminservice.disapproveRequest(rid).then((response) => {
+                this.getCollections();
+                return response.data
+            })
         }
     }
 })

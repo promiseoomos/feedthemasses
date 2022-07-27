@@ -262,6 +262,7 @@ class Admin extends Functions {
             echo $e->getMessage();
         }
     }
+
     public function getCollections($conn){
         try {
             $sql = "select * from collections order by date_requested desc";
@@ -313,6 +314,8 @@ class Admin extends Functions {
                 }
             }
 
+            
+
             $return = Array(
                 "datacount" => $count,
                 "tabledata" => $tabledata
@@ -359,6 +362,54 @@ class Admin extends Functions {
         }
     }
 
+    public function approveRequest($conn, $rid){
+        $d = new DateTime();
+        $curd = $d->format("d, F Y");
+        
+        try {
+            $sql = "UPDATE `collections` SET `status`='Approved',`date_approved`='$curd' WHERE track_id = '$rid'";
+            $query = $conn->prepare($sql);
+            $query->execute();
+
+            if($query){
+                $return = Array(
+                    "status" => true,
+                    "msg" => "Approved"
+                );
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        echo json_encode($return);
+    }
+
+    public function disapproveRequest($conn, $rid){
+        $d = new DateTime();
+        $curd = $d->format("d, F Y");
+        
+        try {
+            $sql = "UPDATE `collections` SET `status`='Disapproved',`date_approved`='$curd' WHERE track_id = '$rid'";
+            $query = $conn->prepare($sql);
+            $query->execute();
+
+            if($query){
+                $return = Array(
+                    "status" => true,
+                    "msg" => "Disapproved"
+                );
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        echo json_encode($return);
+    }
+
+    public function collectedRequest($conn, $rid){
+
+    }
+
 }
 
 $data = json_decode(file_get_contents("php://input"));
@@ -383,6 +434,12 @@ switch($data->action){
     break;
     case "generate-vouchers" :
         $session->generateVouchers($conn, $data->vouchers_count);
+    break;
+    case "approve-request" :
+        $session->approveRequest($conn, $data->rid);
+    break;
+    case "disapprove-request" :
+        $session->disapproveRequest($conn, $data->rid);
     break;
     
 }
