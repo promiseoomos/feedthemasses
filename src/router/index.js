@@ -92,6 +92,11 @@ const routes = [
             path : "collections",
             name : "collections",
             component : () => import("../views/CollectionsView.vue")
+        },
+        {
+            path : "stagesrewards",
+            name : "stagesrewards",
+            component : () => import("../views/AddRewardsView.vue")
         }
     ]
   }

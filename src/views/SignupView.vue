@@ -159,15 +159,6 @@ export default {
             usernameerrormsg : ""
         })
 
-        userstore.$patch({
-            counter : 6,
-            loggedin : true
-        })
-        // userstore.$subscribe((mutation, state) => {
-        //     mutation.type
-        //     localStorage.setItem('userdetails', JSON.stringify(state))
-        // })
-
         const chkfields = computed(() => {
             return regData.first_name.length <= 0 || regData.surname.length <= 0 || regData.email.length <= 0 || regData.username.length <= 0 ||
             regData.phone.length <= 0 || regData.password.length <= 0 || regData.bank_name.length <= 0 || regData.account_name.length <= 0 ||  

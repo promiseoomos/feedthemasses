@@ -410,6 +410,14 @@ class Admin extends Functions {
 
     }
 
+    public function getRewards(){
+
+    }
+
+    public function updateReward($rewardObj, $stage){
+        echo "updateing Reward";
+    }
+
 }
 
 $data = json_decode(file_get_contents("php://input"));
@@ -440,6 +448,9 @@ switch($data->action){
     break;
     case "disapprove-request" :
         $session->disapproveRequest($conn, $data->rid);
+    break;
+    case "update-reward" :
+        $session->updateReward($conn, $data->rewardObj, $data->stage);
     break;
     
 }

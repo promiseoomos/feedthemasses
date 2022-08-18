@@ -53,6 +53,18 @@ export default {
             action : "disapprove-request",
             rid
         })
+    },
+    updateReward(rewardObj, stage){
+        return apiClient.post("admin.class.php", {
+            action : "update-reward",
+            rewardObj,
+            stage
+        })
+    },
+    getRewards(){
+        return apiClient.post("admin.class.php", {
+            action : "get-rewards"
+        })
     }
 
 }

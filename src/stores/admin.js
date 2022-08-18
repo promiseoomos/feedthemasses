@@ -16,7 +16,8 @@ export const adminStore = defineStore("admin", {
             },
             users : {},
             environ : process.env.NODE_ENV,
-            origin : ""
+            origin : "",
+            rewards : []
         }
     },
     actions : {
@@ -78,6 +79,20 @@ export const adminStore = defineStore("admin", {
         async disapproveRequest(rid){
             return await adminservice.disapproveRequest(rid).then((response) => {
                 this.getCollections();
+                return response.data
+            })
+        },
+        async updateReward(rewardObj, stage){
+            return await adminservice.updateReward(rewardObj, stage).then((response) => {
+                this.getRewards();
+
+                return response.data
+            })
+        },
+        async getRewards(){
+            return await adminservice.getRewards().then((response) => {
+                this.rewards = response.data
+                
                 return response.data
             })
         }
